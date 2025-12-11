@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Helper function to swap two strings (pointers to char arrays)
+void swap_strings(char** str1, char** str2) {
+    char* temp = *str1;
+    *str1 = *str2;
+    *str2 = temp;
+}
+
+// Function to reverse a sub-array of strings
+void reverse_strings(char** s, int start, int end) {
+    while (start < end) {
+        swap_strings(&s[start], &s[end]);
+        start++;
+        end--;
+    }
+}
+
+// Function to find the next lexicographical permutation
+int next_permutation(int n, char** s) {
+    // 1. Find the largest index k such that s[k] < s[k+1]
+    int k = -1;
+    for (int i = n - 2; i >= 0; i--) {
+        if (strcmp(s[i], s[i+1]) < 0) {
+            k = i;
+            break;
+        }
+    }
+
+    // If no such k is found, it's the last permutation.
+    // The problem statement implies we stop, or generate the first one (reversed)
+    if (k == -1) {
+        return 0; // No next permutation
+    }
+
+    // 2. Find the largest index l > k such that s[k] < s[l]
+    int l = -1;
+    for (int i = n - 1; i > k; i--) {
+        if (strcmp(s[k], s[i]) < 0) {
+            l = i;
+            break;
+        }
+    }
+
+    // 3. Swap the value of s[k] with s[l]
+    swap_strings(&s[k], &s[l]);
+
+    // 4. Reverse the sub-array from s[k+1] up to the end
+    reverse_strings(s, k + 1, n - 1);
+
+    return 1; // Next permutation found
+}
+
+// The following is provided boilerplate code and should remain outside 
+// the next_permutation function implementation.
+
+/*
+int main()
+{
+    char** s;
+    int n;
+    scanf("%d", &n);
+    s = calloc(n, sizeof(char*));
+    for (int i = 0; i < n; i++)
+    {
+        s[i] = calloc(10, sizeof(char));
+        scanf("%s", s[i]);
+    }
+    do
+    {
+        for (int i = 0; i < n; i++)
+            printf("%s%c", s[i], i == n - 1 ? '\n' : ' ');
+    } while (next_permutation(n, s));
+    for (int i = 0; i < n; i++)
+        free(s[i]);
+    free(s);
+    return 0;
+}
+*/
