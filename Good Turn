@@ -1,0 +1,23 @@
+#include <stdio.h>
+void solve() {
+    int X, Y;
+    if (scanf("%d %d", &X, &Y) != 2) return;
+    if (X + Y > 6) {
+        printf("YES\n");
+    } else {
+        printf("NO\n");
+    }
+}
+int main() {
+    int T;
+    
+    // Read the number of test cases
+    if (scanf("%d", &T) != 1) return 1;
+
+    // Loop through all test cases
+    while (T--) {
+        solve();
+    }
+    
+    return 0;
+}
