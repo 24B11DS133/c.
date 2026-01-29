@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define modulo 1000000007
+
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n), to, mo;
+
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+        (i % 2 == 0 ? mo : to).push_back(a[i]);
+    }
+
+    sort(to.begin(), to.end());
+    sort(mo.begin(), mo.end(), greater<int>());
+
+    for (int i = 0; i < min(to.size(), mo.size()); i++) {
+        if (to[i] < mo[i] && k > 0) {
+            swap(to[i], mo[i]);
+            k--;
+        }
+    }
+
+    int t_sum = accumulate(to.begin(), to.end(), 0);
+    int m_sum = accumulate(mo.begin(), mo.end(), 0);
+
+    cout << (t_sum > m_sum ? "YES" : "NO") << "\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    return 0;
+}
